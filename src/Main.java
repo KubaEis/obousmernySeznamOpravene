@@ -1,99 +1,120 @@
 import java.util.Scanner;
 
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
-    static Scanner sc = new Scanner(System.in);
+    private static final Scanner sc = new Scanner(System.in);
+
     public static void main(String[] args) {
-        MyDoubleLinkedList list = new MyDoubleLinkedList();
+        MyDoubleLinkedList playlist = new MyDoubleLinkedList();
 
         while (true) {
-            System.out.println("\n-------MENU-------");
-            System.out.println("1. Přidej song na konec seznamu");
-            System.out.println("2. Vypiš názvy všech písní v tvém playlistu");
-            System.out.println("3. Přidej song na začátek playlistu");
-            System.out.println("4. Přehraj první song playlistu - vypiš název a stopáž");
-            System.out.println("5. Přehraj píseň na určité pozici - vypiš název a stopáž");
-            System.out.println("6. Přepni a přehraj na další song - vypiš název a stopáž");
-            System.out.println("7. Přepni a přehraj na předchozí song - vypiš název a stopáž");
-            System.out.println("8. Odeber první song");
-            System.out.println("9. Odeber píseň z určité pozice");
-            System.out.println("10. Konec");
-            System.out.print("Vase volba: ");
+            System.out.println("\n================ MENU ==================");
+            System.out.println("a. Přidej song na konec seznamu");
+            System.out.println("b. Vypiš názvy všech písní v tvém playlistu");
+            System.out.println("c. Přidej song na začátek playlistu");
+            System.out.println("d. Přehraj první song playlistu");
+            System.out.println("e. Přehraj píseň na určité pozici");
+            System.out.println("f. Přepni a přehraj na další song");
+            System.out.println("g. Přepni a přehraj na předchozí song");
+            System.out.println("h. Odeber první song");
+            System.out.println("i. Odeber píseň z určité pozice");
+            System.out.println("j. Přidej píseň na určitou pozici");
+            System.out.println("k. Vymaž píseň s určitým názvem");
+            System.out.println("--- BONUSY ---");
+            System.out.println("l. Zahraj náhodnou píseň");
+            System.out.println("m. Vypiš název nejhranější písně");
+            System.out.println("n. Seřaď playlist");
+            System.out.println("o. Exportuj seznam písní do souboru");
+            System.out.println("p. Vyhledávání podle části názvu písně");
+            System.out.println("0. Konec");
+            System.out.print("Vaše volba: ");
 
-            int vyber = sc.nextInt();
-            sc.nextLine();
+            String volba = sc.nextLine().trim().toLowerCase();
 
-            switch (vyber) {
-                case 1:
-                    System.out.println("-----Přidej song na konec seznamu-----");
-                    System.out.println("Nazev pisnicky:");
-                    String nazev = sc.nextLine();
-                    System.out.println("Jmeno interpreta:");
-                    String interpret = sc.nextLine();
-                    System.out.println("Delka pisnicky v sekundach:");
-                    int delkaS = sc.nextInt();
-                    sc.nextLine();
-                    list.add(new Song(nazev, interpret, delkaS));
+            switch (volba) {
+                case "a": case "1":
+                    playlist.add(nactisong());
                     break;
-                case 2:
-                    System.out.println("-----Vypiš názvy všech písní v tvém playlistu-----");
-                    list.printAll();
+                case "b": case "2":
+                    playlist.printAll();
                     break;
-                case 3:
-                    System.out.println("-----Přidej song na začátek playlistu-----");
-                    System.out.println("Nazev pisnicky:");
-                    String nazev1 = sc.nextLine();
-                    System.out.println("Jmeno interpreta:");
-                    String interpret1 = sc.nextLine();
-                    System.out.println("Delka pisnicky v sekundach:");
-                    int delkaS1 = sc.nextInt();
-                    sc.nextLine();
-                    list.add(new Song(nazev1, interpret1, delkaS1));
+                case "c": case "3":
+                    playlist.addFirst(nactisong());
                     break;
-                case 4:
-                    System.out.println("-----Přehraj první song playlistu - vypiš název a stopáž-----");
-                    list.removeFirst();
+                case "d": case "4":
+                    playlist.playFirst();
                     break;
-                case 5:
-                    System.out.println("-----Přehraj píseň na určité pozici - vypiš název a stopáž-----");
-                    System.out.println("Index:");
-                    int i = sc.nextInt();
-                    sc.nextLine();
-                    list.removeOnIndex(i);
+                case "e": case "5":
+                    System.out.print("Zadejte index: ");
+                    playlist.playOnIndex(nacitcislo());
                     break;
-                case 6:
-                    System.out.println("-----Přepni a přehraj na další song - vypiš název a stopáž-----");
-                    System.out.println("Nazev ukolu:");
-                    String indexText = sc.nextLine();
-                    System.out.println("Priorita:");
-                    int indexPriorita = sc.nextInt();
-                    sc.nextLine();
-                    System.out.println("Index:");
-                    int index = sc.nextInt();
-                    sc.nextLine();
-                    list.addToIndex(new Ukol(indexText,indexPriorita),index);
+                case "f": case "6":
+                    playlist.playNext();
                     break;
-                case 7:
-                    System.out.println("-----Přepni a přehraj na předchozí song - vypiš název a stopáž-----");
-                    System.out.println("Index:");
-                    int i7 = sc.nextInt();
-                    sc.nextLine();
-                    list.playBeforIndex(i7);
+                case "g": case "7":
+                    playlist.playPrevious();
                     break;
-                case 8:
-                    System.out.println("-----Odeber první song-----");
-                    list.removeFirst();
+                case "h": case "8":
+                    playlist.removeFirst();
                     break;
-                case 9:
-                    System.out.println("-----Odeber píseň z určité pozice-----");
-                    System.out.println("Index:");
-                    int i9 = sc.nextInt();
-                    sc.nextLine();
-                    list.removeOnIndex(i9);
+                case "i": case "9":
+                    System.out.print("Zadejte index k odebrání: ");
+                    playlist.removeOnIndex(nacitcislo());
                     break;
+                case "j": case "10":
+                    Song s = nactisong();
+                    System.out.print("Zadejte index pro vložení: ");
+                    playlist.addOnIndex(s, nacitcislo());
+                    break;
+                case "k": case "11":
+                    System.out.print("Zadejte název písně k vymazání: ");
+                    playlist.removeByName(sc.nextLine());
+                    break;
+                case "l": case "12":
+                    playlist.playRandom();
+                    break;
+                case "m": case "13":
+                    playlist.printMostPlayed();
+                    break;
+                case "n": case "14":
+                    System.out.print("Podle čeho řadit? (1 - Název, 2 - Interpret, 3 - Stopáž): ");
+                    playlist.sort(nacitcislo());
+                    break;
+                case "o": case "15":
+                    System.out.print("Zadejte název souboru (např. playlist.csv / playlist.json / playlist.xml / playlist.txt): ");
+                    String filename = sc.nextLine();
+                    System.out.print("Zadejte formát (txt, csv, xml, json): ");
+                    String format = sc.nextLine();
+                    playlist.exportToFile(filename, format);
+                    break;
+                case "p": case "16":
+                    System.out.print("Zadejte část názvu písně: ");
+                    playlist.searchByName(sc.nextLine());
+                    break;
+                case "0":
+                    System.out.println("Ukončuji aplikaci. Na shledanou!");
+                    return;
                 default:
-                    break;
+                    System.out.println("Neplatná volba. Zkuste to znovu.");
+            }
+        }
+    }
+
+    private static Song nactisong() {
+        System.out.print("Název písničky: ");
+        String nazev = sc.nextLine();
+        System.out.print("Jméno interpreta: ");
+        String interpret = sc.nextLine();
+        System.out.print("Délka v sekundách: ");
+        int delka = nacitcislo();
+        return new Song(nazev, interpret, delka);
+    }
+
+    private static int nacitcislo() {
+        while (true) {
+            try {
+                return Integer.parseInt(sc.nextLine().trim());
+            } catch (NumberFormatException e) {
+                System.out.print("Neplatný vstup, zadejte celé číslo: ");
             }
         }
     }

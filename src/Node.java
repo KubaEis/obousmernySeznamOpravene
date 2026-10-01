@@ -1,8 +1,9 @@
-class Node {
+public class Node {
     private Song data;
     private Node next;
     private Node previous;
-    Node(Song data) {
+
+    public Node(Song data) {
         this.data = data;
         this.next = null;
         this.previous = null;
